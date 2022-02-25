@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityScale: 1.1
   fallGravityMult: 4
-  quickFallGravityMult: 2.2
+  quickFallGravityMult: 15
+  glideGravityMult: 1
   dragAmount: 0.22
   frictionAmount: 0.55
   coyoteTime: 0.1
