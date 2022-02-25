@@ -10,6 +10,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     public event UnityAction jumpCanceledEvent;
     public event UnityAction dashEvent;
     public event UnityAction climbEvent;
+    public event UnityAction<bool> glideEvent;
     public event UnityAction<Vector2> moveEvent;
 
     private GameInput gameInput;
@@ -72,6 +73,19 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         if (moveEvent != null && context.phase == InputActionPhase.Canceled)
         {
             moveEvent.Invoke(Vector2.zero);
+        }
+    }
+
+    public void OnGlide(InputAction.CallbackContext context)
+    {
+        if (glideEvent != null && context.phase == InputActionPhase.Performed)
+        {
+            glideEvent.Invoke(true);
+        }
+
+        if (glideEvent != null && context.phase == InputActionPhase.Canceled)
+        {
+            glideEvent.Invoke(false);
         }
     }
 }

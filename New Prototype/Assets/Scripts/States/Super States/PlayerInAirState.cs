@@ -29,6 +29,10 @@ public class PlayerInAirState : PlayerState
 		{
 			player.StateMachine.ChangeState(player.DashState);
 		}
+		else if (player.Gliding)
+        {
+			player.StateMachine.ChangeState(player.GlideState);
+        }
 		else if (player.LastOnGroundTime > 0)
 		{
 			player.StateMachine.ChangeState(player.IdleState);

@@ -22,6 +22,7 @@ public class PlayerStateMachine : MonoBehaviour
 	public PlayerWallSlideState WallSlideState { get; private set; }
 	public PlayerWallJumpState WallJumpState { get; private set; }
 	public PlayerDashState DashState { get; private set; }
+	public PlayerGlideState GlideState { get; private set; }
 
 	[ReadOnly(true)] public string CurrentState;
     #endregion
@@ -32,6 +33,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 	#region STATE PARAMETERS
 	public bool IsFacingRight { get; private set; }
+	public bool Gliding { get; private set; }
 	public float LastOnGroundTime { get; private set; }
 	public float LastOnWallTime { get; private set; }
 	public float LastOnWallRightTime { get; private set; }
@@ -63,6 +65,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
 		inputReader.climbEvent += OnClimb;
 		inputReader.dashEvent += OnDash;
+		inputReader.glideEvent += OnGlide;
 		inputReader.jumpEvent += OnJump;
 		inputReader.jumpCanceledEvent += OnJumpCanceled;
 		inputReader.moveEvent += OnMove;
@@ -72,6 +75,7 @@ public class PlayerStateMachine : MonoBehaviour
 	{
 		inputReader.climbEvent -= OnClimb;
 		inputReader.dashEvent -= OnDash;
+		inputReader.glideEvent -= OnGlide;
 		inputReader.jumpEvent -= OnJump;
 		inputReader.jumpCanceledEvent -= OnJumpCanceled;
 		inputReader.moveEvent -= OnMove;
@@ -89,6 +93,7 @@ public class PlayerStateMachine : MonoBehaviour
 		WallSlideState = new PlayerWallSlideState(this, StateMachine, data);
 		WallJumpState = new PlayerWallJumpState(this, StateMachine, data);
 		DashState = new PlayerDashState(this, StateMachine, data);
+		GlideState = new PlayerGlideState(this, StateMachine, data);
 		#endregion
 
 		#region COMPONENTS
@@ -164,16 +169,18 @@ public class PlayerStateMachine : MonoBehaviour
         movementInput = movement;
     }
 
-	public void OnClimb()
-    {
+	public void OnClimb() { }
 
+	public void OnGlide(bool pressed)
+    {
+		Gliding = pressed;
     }
 	
     #endregion
 
     #region MOVEMENT METHODS
 
-    public void SetGravityScale (float scale)
+    public void SetGravityScale(float scale)
 	{
 		RB.gravityScale = scale;
 	}
