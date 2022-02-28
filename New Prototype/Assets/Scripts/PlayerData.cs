@@ -63,6 +63,9 @@ public class PlayerData : ScriptableObject
 	[Space(5)]
 	[Range(0, 0.5f)] public float dashBufferTime;
 
+	[Header("Ground Pound")]
+	public float yVelThresh;
+
 	//OTHER
 	[Header("Other Settings")]
 	public bool doKeepRunMomentum; //player movement will not decrease speed if above maxSpeed, letting only drag do so. Allows for conservation of momentum
