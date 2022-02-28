@@ -30,6 +30,7 @@ public class PlayerGlideState : PlayerInAirState
     {
         base.PhysicsUpdate();
 
-        player.SetGravityScale(data.gravityScale * data.glideGravityMult);
+        player.SetGravityScale(0f);
+        player.RB.velocity = new Vector2(player.RB.velocity.x, -1f);
     }
 }
