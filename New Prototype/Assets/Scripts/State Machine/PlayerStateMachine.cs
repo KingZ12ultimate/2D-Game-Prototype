@@ -23,6 +23,8 @@ public class PlayerStateMachine : MonoBehaviour
 	public PlayerWallJumpState WallJumpState { get; private set; }
 	public PlayerDashState DashState { get; private set; }
 	public PlayerGlideState GlideState { get; private set; }
+	public PlayerLandState LandState { get; private set; }
+	public PlayerHardLandState HardLandState { get; private set; }
 
 	[ReadOnly(true)] public string CurrentState;
     #endregion
@@ -94,6 +96,8 @@ public class PlayerStateMachine : MonoBehaviour
 		WallJumpState = new PlayerWallJumpState(this, StateMachine, data);
 		DashState = new PlayerDashState(this, StateMachine, data);
 		GlideState = new PlayerGlideState(this, StateMachine, data);
+		LandState = new PlayerLandState(this, StateMachine, data);
+		HardLandState = new PlayerHardLandState(this, StateMachine, data);
 		#endregion
 
 		#region COMPONENTS
@@ -252,14 +256,14 @@ public class PlayerStateMachine : MonoBehaviour
 		IsFacingRight = !IsFacingRight;
 	}
 
-	public void Jump()
+	public void Jump(float jumpMult)
 	{
 		//ensures we can't call a jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
 
 		#region Perform Jump
-		float adjustedJumpForce = data.jumpForce;
+		float adjustedJumpForce = data.jumpForce * jumpMult;
 		if (RB.velocity.y < 0)
 			adjustedJumpForce -= RB.velocity.y;
 

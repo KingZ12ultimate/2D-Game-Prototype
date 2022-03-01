@@ -12,7 +12,7 @@ public class PlayerJumpState : PlayerUsingAbilityState
 	{
 		base.Enter();
 
-		player.Jump();
+		player.Jump(1f);
 	}
 
 	public override void Exit()

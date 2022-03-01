@@ -43,5 +43,6 @@ MonoBehaviour:
   dashUpEndMult: 0.6
   dashEndRunLerp: 0.3
   dashBufferTime: 0.05
+  yVelThresh: 12
   doKeepRunMomentum: 1
   doTurnOnWallJump: 0

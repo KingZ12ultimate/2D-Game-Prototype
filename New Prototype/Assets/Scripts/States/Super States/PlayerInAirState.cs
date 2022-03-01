@@ -57,6 +57,10 @@ public class PlayerInAirState : PlayerState
 				player.SetGravityScale(data.gravityScale * data.fallGravityMult);
 			}
 		}
+        else if (player.RB.velocity.y >= data.yVelThresh)
+        {
+			player.StateMachine.ChangeState(player.HardLandState);
+		}
 	}
 
 	public override void PhysicsUpdate()
