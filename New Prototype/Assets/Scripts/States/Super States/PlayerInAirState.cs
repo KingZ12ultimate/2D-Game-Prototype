@@ -33,10 +33,6 @@ public class PlayerInAirState : PlayerState
         {
 			player.StateMachine.ChangeState(player.GlideState);
         }
-		else if (player.LastOnGroundTime > 0)
-		{
-			player.StateMachine.ChangeState(player.IdleState);
-		}
 		else if(player.LastPressedJumpTime > 0 && player.LastOnWallTime > 0)
 		{
 			player.StateMachine.ChangeState(player.WallJumpState);
@@ -57,9 +53,17 @@ public class PlayerInAirState : PlayerState
 				player.SetGravityScale(data.gravityScale * data.fallGravityMult);
 			}
 		}
-        else if (player.RB.velocity.y >= data.yVelThresh)
-        {
-			player.StateMachine.ChangeState(player.HardLandState);
+		else if (player.LastOnGroundTime > 0)
+		{
+			if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
+			{
+				player.StateMachine.ChangeState(player.DashState);
+			}
+			if (player.RB.velocity.y <= -data.yVelThresh)
+			{
+				player.StateMachine.ChangeState(player.HardLandState);
+			}
+			player.StateMachine.ChangeState(player.IdleState);
 		}
 	}
 

@@ -36,6 +36,7 @@ public class PlayerStateMachine : MonoBehaviour
 	#region STATE PARAMETERS
 	public bool IsFacingRight { get; private set; }
 	public bool Gliding { get; private set; }
+	public bool HardLanding { get; set; }
 	public float LastOnGroundTime { get; private set; }
 	public float LastOnWallTime { get; private set; }
 	public float LastOnWallRightTime { get; private set; }
@@ -256,13 +257,14 @@ public class PlayerStateMachine : MonoBehaviour
 		IsFacingRight = !IsFacingRight;
 	}
 
-	public void Jump(float jumpMult)
+	public void Jump()
 	{
 		//ensures we can't call a jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
 
 		#region Perform Jump
+		float jumpMult = HardLanding ? data.jumpMult : 1f;
 		float adjustedJumpForce = data.jumpForce * jumpMult;
 		if (RB.velocity.y < 0)
 			adjustedJumpForce -= RB.velocity.y;

@@ -12,7 +12,8 @@ public class PlayerJumpState : PlayerUsingAbilityState
 	{
 		base.Enter();
 
-		player.Jump(1f);
+		player.Jump();
+		player.HardLanding = false;
 	}
 
 	public override void Exit()

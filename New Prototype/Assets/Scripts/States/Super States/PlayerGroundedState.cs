@@ -25,11 +25,7 @@ public class PlayerGroundedState : PlayerState
 	{
 		base.LogicUpdate();
 
-		if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
-		{
-			player.StateMachine.ChangeState(player.DashState);
-		}
-		else if (player.LastPressedJumpTime > 0)
+		if (player.LastPressedJumpTime > 0)
 		{
 			player.StateMachine.ChangeState(player.JumpState);
 		}

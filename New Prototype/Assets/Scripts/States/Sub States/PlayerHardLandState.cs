@@ -11,6 +11,9 @@ public class PlayerHardLandState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+
+        player.HardLanding = true;
+        Debug.Log("Hard Landing");
     }
 
     public override void Exit()
@@ -24,7 +27,11 @@ public class PlayerHardLandState : PlayerGroundedState
 
         if (player.LastPressedJumpTime > 0)
         {
-
+            player.StateMachine.ChangeState(player.JumpState);
+        }
+        if (player.LastOnGroundTime > 0f)
+        {
+            player.StateMachine.ChangeState(player.IdleState);
         }
     }
 

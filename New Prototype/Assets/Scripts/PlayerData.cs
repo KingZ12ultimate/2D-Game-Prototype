@@ -65,6 +65,7 @@ public class PlayerData : ScriptableObject
 
 	[Header("Ground Pound")]
 	public float yVelThresh;
+	[Range(1f, 2f)] public float jumpMult;
 
 	//OTHER
 	[Header("Other Settings")]
