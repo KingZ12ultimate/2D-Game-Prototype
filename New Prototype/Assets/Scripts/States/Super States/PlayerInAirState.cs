@@ -55,13 +55,13 @@ public class PlayerInAirState : PlayerState
 		}
 		else if (player.LastOnGroundTime > 0)
 		{
-			if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
-			{
-				player.StateMachine.ChangeState(player.DashState);
-			}
 			if (player.RB.velocity.y <= -data.yVelThresh)
 			{
 				player.StateMachine.ChangeState(player.HardLandState);
+			}
+			if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
+			{
+				player.StateMachine.ChangeState(player.DashState);
 			}
 			player.StateMachine.ChangeState(player.IdleState);
 		}

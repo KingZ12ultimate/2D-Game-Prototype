@@ -72,6 +72,7 @@ public class PlayerStateMachine : MonoBehaviour
 		inputReader.jumpEvent += OnJump;
 		inputReader.jumpCanceledEvent += OnJumpCanceled;
 		inputReader.moveEvent += OnMove;
+		
     }
 
 	private void OnDisable()
@@ -179,6 +180,11 @@ public class PlayerStateMachine : MonoBehaviour
 	public void OnGlide(bool pressed)
     {
 		Gliding = pressed;
+    }
+
+	public void OnGrab()
+    {
+
     }
 	
     #endregion
@@ -330,6 +336,15 @@ public class PlayerStateMachine : MonoBehaviour
 		if (isMovingRight != IsFacingRight)
 			Turn();
 	}
+
+	public bool CheckIfCanGrab(Item item)
+    {
+        if (Vector2.Distance(item.transform.position, transform.position) < 10f)
+        {
+			return true;
+        }
+		return false;
+    }
 
 	#endregion
 }
