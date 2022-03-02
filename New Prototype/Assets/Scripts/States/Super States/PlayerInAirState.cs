@@ -52,13 +52,13 @@ public class PlayerInAirState : PlayerState
 			{
 				player.SetGravityScale(data.gravityScale * data.fallGravityMult);
 			}
+            if (Mathf.Abs(player.RB.velocity.y) >= data.yVelThresh && player.LastOnGroundTime > 0)
+            {
+				player.StateMachine.ChangeState(player.HardLandState);
+            }
 		}
 		else if (player.LastOnGroundTime > 0)
 		{
-			if (player.RB.velocity.y <= -data.yVelThresh)
-			{
-				player.StateMachine.ChangeState(player.HardLandState);
-			}
 			if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
 			{
 				player.StateMachine.ChangeState(player.DashState);
