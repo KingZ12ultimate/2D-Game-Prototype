@@ -152,9 +152,23 @@ public class PlayerStateMachine : MonoBehaviour
 		StateMachine.CurrentState.PhysicsUpdate();
 	}
 
-	#region INPUT CALLBACKS
-	//These functions are called when an even is triggered in my InputHandler. You could call these methods through a if(Input.GetKeyDown) in Update
-	public void OnJump()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+		if (collision.tag != "Item")
+			return;
+        collision.GetComponent<Item>().enabled = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+		if (collision.tag != "Item")
+			return;
+		collision.GetComponent<Item>().enabled = false;
+    }
+
+    #region INPUT CALLBACKS
+    //These functions are called when an even is triggered in my InputHandler. You could call these methods through a if(Input.GetKeyDown) in Update
+    public void OnJump()
 	{
 		LastPressedJumpTime = data.jumpBufferTime;
 	}
@@ -336,15 +350,6 @@ public class PlayerStateMachine : MonoBehaviour
 		if (isMovingRight != IsFacingRight)
 			Turn();
 	}
-
-	public bool CheckIfCanGrab(Item item)
-    {
-        if (Vector2.Distance(item.transform.position, transform.position) < 10f)
-        {
-			return true;
-        }
-		return false;
-    }
 
 	#endregion
 }

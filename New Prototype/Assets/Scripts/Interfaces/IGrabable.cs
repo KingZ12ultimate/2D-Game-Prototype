@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IGrabable
 {
     public void OnGrab();
+    public void OnRelease();
 }
