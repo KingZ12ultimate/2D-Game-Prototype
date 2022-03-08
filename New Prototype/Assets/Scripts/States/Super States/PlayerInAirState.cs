@@ -52,7 +52,7 @@ public class PlayerInAirState : PlayerState
 			{
 				player.SetGravityScale(data.gravityScale * data.fallGravityMult);
 			}
-            if (Mathf.Abs(player.RB.velocity.y) >= data.yVelThresh && player.LastOnGroundTime > 0)
+            if (Mathf.Abs(player.RB.velocity.y) >= data.yVelThresh && player.LastOnGroundTime >= 0)
             {
 				player.StateMachine.ChangeState(player.HardLandState);
             }
@@ -73,5 +73,10 @@ public class PlayerInAirState : PlayerState
 
 		player.Drag(data.dragAmount);
 		player.Run(1);
-	}		
+	}
+	
+	public bool IsHardLanding()
+    {
+		return true;
+    }
 }
