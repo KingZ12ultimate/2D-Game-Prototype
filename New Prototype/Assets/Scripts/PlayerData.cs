@@ -64,7 +64,6 @@ public class PlayerData : ScriptableObject
 	[Range(0, 0.5f)] public float dashBufferTime;
 
 	[Header("Ground Pound")]
-	public float yVelThresh;
 	[Range(1f, 2f)] public float jumpMult;
 
 	//OTHER
