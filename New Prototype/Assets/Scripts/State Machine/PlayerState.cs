@@ -32,4 +32,9 @@ public class PlayerState
 	public virtual void LogicUpdate() { }
 
 	public virtual void PhysicsUpdate() { }
+	
+	public bool IsHardLanding()
+    {
+		return true;
+    }
 }

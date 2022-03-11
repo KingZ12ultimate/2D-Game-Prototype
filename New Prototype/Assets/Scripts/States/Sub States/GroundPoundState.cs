@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHardLandState : PlayerGroundedState
+public class GroundPoundState : PlayerUsingAbilityState
 {
-    public PlayerHardLandState(PlayerStateMachine player, StateMachine stateMachine, PlayerData data) : base(player, stateMachine, data)
+    public GroundPoundState(PlayerStateMachine player, StateMachine stateMachine, PlayerData data) : base(player, stateMachine, data)
     {
     }
 
@@ -12,23 +12,22 @@ public class PlayerHardLandState : PlayerGroundedState
     {
         base.Enter();
 
-        player.HardLanding = true;
-        Debug.Log("Hard Landing");
+        player.SetGravityScale(data.gravityScale * data.quickFallGravityMult);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        player.GroundPounding = false;
+        player.LastHardLandedTime = data.coyoteTime;
+        player.SetGravityScale(data.gravityScale);
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        if (player.LastPressedJumpTime > 0)
-        {
-            player.StateMachine.ChangeState(player.JumpState);
-        }
         if (player.LastOnGroundTime > 0f)
         {
             player.StateMachine.ChangeState(player.IdleState);

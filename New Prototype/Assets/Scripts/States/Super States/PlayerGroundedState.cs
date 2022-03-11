@@ -29,6 +29,10 @@ public class PlayerGroundedState : PlayerState
 		{
 			player.StateMachine.ChangeState(player.JumpState);
 		}
+		else if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
+		{
+			player.StateMachine.ChangeState(player.DashState);
+		}
 		else if (player.LastOnGroundTime <= 0)
 		{
 			player.StateMachine.ChangeState(player.InAirState);

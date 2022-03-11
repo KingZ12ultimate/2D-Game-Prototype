@@ -23,8 +23,7 @@ public class PlayerStateMachine : MonoBehaviour
 	public PlayerWallJumpState WallJumpState { get; private set; }
 	public PlayerDashState DashState { get; private set; }
 	public PlayerGlideState GlideState { get; private set; }
-	public PlayerLandState LandState { get; private set; }
-	public PlayerHardLandState HardLandState { get; private set; }
+	public GroundPoundState GroundPoundState { get; private set; }
 
 	[ReadOnly(true)] public string CurrentState;
     #endregion
@@ -36,7 +35,9 @@ public class PlayerStateMachine : MonoBehaviour
 	#region STATE PARAMETERS
 	public bool IsFacingRight { get; private set; }
 	public bool Gliding { get; private set; }
+	public bool GroundPounding { get; set; }
 	public bool HardLanding { get; set; }
+	public float LastHardLandedTime { get; set; }
 	public float LastOnGroundTime { get; private set; }
 	public float LastOnWallTime { get; private set; }
 	public float LastOnWallRightTime { get; private set; }
@@ -64,27 +65,28 @@ public class PlayerStateMachine : MonoBehaviour
 	[SerializeField] private LayerMask _groundLayer;
     #endregion
 
-    private void OnEnable()
+    #region Enable / Disable
+	private void OnEnable()
     {
-		inputReader.climbEvent += OnClimb;
 		inputReader.dashEvent += OnDash;
 		inputReader.glideEvent += OnGlide;
+		inputReader.groundPoundEvent += OnGroundPound;
 		inputReader.jumpEvent += OnJump;
 		inputReader.jumpCanceledEvent += OnJumpCanceled;
 		inputReader.moveEvent += OnMove;
-		
     }
 
 	private void OnDisable()
 	{
-		inputReader.climbEvent -= OnClimb;
 		inputReader.dashEvent -= OnDash;
 		inputReader.glideEvent -= OnGlide;
+		inputReader.groundPoundEvent -= OnGroundPound;
 		inputReader.jumpEvent -= OnJump;
 		inputReader.jumpCanceledEvent -= OnJumpCanceled;
 		inputReader.moveEvent -= OnMove;
 	}
-
+    #endregion
+    
 	private void Awake()
 	{
 		#region STATE MACHINE
@@ -98,8 +100,7 @@ public class PlayerStateMachine : MonoBehaviour
 		WallJumpState = new PlayerWallJumpState(this, StateMachine, data);
 		DashState = new PlayerDashState(this, StateMachine, data);
 		GlideState = new PlayerGlideState(this, StateMachine, data);
-		LandState = new PlayerLandState(this, StateMachine, data);
-		HardLandState = new PlayerHardLandState(this, StateMachine, data);
+		GroundPoundState = new GroundPoundState(this, StateMachine, data);
 		#endregion
 
 		#region COMPONENTS
@@ -120,6 +121,9 @@ public class PlayerStateMachine : MonoBehaviour
 		StateMachine.CurrentState.LogicUpdate();
 
 		#region CHECKS
+		HardLanding = LastHardLandedTime > 0f;
+		
+		LastHardLandedTime -= Time.deltaTime;
 		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
 		LastOnWallRightTime -= Time.deltaTime;
@@ -152,7 +156,8 @@ public class PlayerStateMachine : MonoBehaviour
 		StateMachine.CurrentState.PhysicsUpdate();
 	}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    #region GRAB FUNCTIONS
+	private void OnTriggerEnter2D(Collider2D collision)
     {
 		if (collision.tag != "Item")
 			return;
@@ -165,6 +170,7 @@ public class PlayerStateMachine : MonoBehaviour
 			return;
 		collision.GetComponent<Item>().enabled = false;
     }
+    #endregion
 
     #region INPUT CALLBACKS
     //These functions are called when an even is triggered in my InputHandler. You could call these methods through a if(Input.GetKeyDown) in Update
@@ -186,7 +192,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void OnMove(Vector2 movement)
     {
-        movementInput = movement;
+		movementInput = movement;
     }
 
 	public void OnClimb() { }
@@ -196,9 +202,9 @@ public class PlayerStateMachine : MonoBehaviour
 		Gliding = pressed;
     }
 
-	public void OnGrab()
+	public void OnGroundPound(bool pressed)
     {
-
+		GroundPounding = pressed;
     }
 	
     #endregion
@@ -351,5 +357,13 @@ public class PlayerStateMachine : MonoBehaviour
 			Turn();
 	}
 
-	#endregion
+    #endregion
+
+    #region DRAW GIZMOS
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
+    }
+    #endregion
 }

@@ -29,6 +29,10 @@ public class PlayerInAirState : PlayerState
 		{
 			player.StateMachine.ChangeState(player.DashState);
 		}
+		else if (player.GroundPounding)
+		{
+			player.StateMachine.ChangeState(player.GroundPoundState);
+		}
 		else if (player.Gliding)
         {
 			player.StateMachine.ChangeState(player.GlideState);
@@ -44,18 +48,7 @@ public class PlayerInAirState : PlayerState
 		else if (player.RB.velocity.y < 0)
 		{
 			//quick fall when holding down: feels responsive, adds some bonus depth with very little added complexity and great for speedrunners :D (In games such as Celeste and Katana ZERO)
-			if (player.movementInput.y < 0)
-			{
-				player.SetGravityScale(data.gravityScale * data.quickFallGravityMult);
-			}
-			else
-			{
-				player.SetGravityScale(data.gravityScale * data.fallGravityMult);
-			}
-            if (Mathf.Abs(player.RB.velocity.y) >= data.yVelThresh && player.LastOnGroundTime >= 0)
-            {
-				player.StateMachine.ChangeState(player.HardLandState);
-            }
+			player.SetGravityScale(data.gravityScale * data.fallGravityMult);
 		}
 		else if (player.LastOnGroundTime > 0)
 		{
@@ -74,9 +67,4 @@ public class PlayerInAirState : PlayerState
 		player.Drag(data.dragAmount);
 		player.Run(1);
 	}
-	
-	public bool IsHardLanding()
-    {
-		return true;
-    }
 }

@@ -9,9 +9,9 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     public event UnityAction jumpEvent;
     public event UnityAction jumpCanceledEvent;
     public event UnityAction dashEvent;
-    public event UnityAction climbEvent;
     public event UnityAction<bool> glideEvent;
     public event UnityAction grabEvent;
+    public event UnityAction<bool> groundPoundEvent;
     public event UnityAction<Vector2> moveEvent;
 
     private GameInput gameInput;
@@ -34,10 +34,6 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
 
     public void OnClimb(InputAction.CallbackContext context)
     {
-        if (climbEvent != null && context.phase == InputActionPhase.Performed)
-        {
-            climbEvent.Invoke();
-        }
     }
 
     public void OnDash(InputAction.CallbackContext context)
@@ -95,6 +91,19 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         if (grabEvent != null && context.phase == InputActionPhase.Started)
         {
             grabEvent.Invoke();
+        }
+    }
+
+    public void OnGroundPound(InputAction.CallbackContext context)
+    {
+        if (groundPoundEvent != null && context.phase == InputActionPhase.Performed)
+        {
+            groundPoundEvent.Invoke(true);
+        }
+
+        if (groundPoundEvent != null && context.phase == InputActionPhase.Canceled)
+        {
+            groundPoundEvent.Invoke(false);
         }
     }
 }

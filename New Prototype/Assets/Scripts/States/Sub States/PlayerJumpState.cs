@@ -13,7 +13,7 @@ public class PlayerJumpState : PlayerUsingAbilityState
 		base.Enter();
 
 		player.Jump();
-		player.HardLanding = false;
+		player.GroundPounding = false;
 	}
 
 	public override void Exit()

@@ -309,7 +309,7 @@ MonoBehaviour:
   CurrentState: 
   movementInput: {x: 0, y: 0}
   _groundCheckPoint: {fileID: 1166855460}
-  _groundCheckSize: {x: 0.3, y: 0.3}
+  _groundCheckSize: {x: 0.98, y: 0.3}
   _frontWallCheckPoint: {fileID: 173136594}
   _backWallCheckPoint: {fileID: 1923489360}
   _wallCheckSize: {x: 0.3, y: 0.3}

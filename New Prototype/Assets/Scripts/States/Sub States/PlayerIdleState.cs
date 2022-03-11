@@ -12,8 +12,6 @@ public class PlayerIdleState : PlayerGroundedState
 	public override void Enter()
 	{
 		base.Enter();
-
-		player.HardLanding = false;
 	}
 
 	public override void Exit()
