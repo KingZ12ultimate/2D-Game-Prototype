@@ -177,6 +177,7 @@ public class PlayerStateMachine : MonoBehaviour
     public void OnJump()
 	{
 		LastPressedJumpTime = data.jumpBufferTime;
+		Debug.Log("Want to jump");
 	}
 
 	public void OnJumpCanceled()

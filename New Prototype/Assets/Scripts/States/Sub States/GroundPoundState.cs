@@ -12,6 +12,7 @@ public class GroundPoundState : PlayerUsingAbilityState
     {
         base.Enter();
 
+        player.RB.velocity = Vector2.zero;
         player.SetGravityScale(data.gravityScale * data.quickFallGravityMult);
     }
 

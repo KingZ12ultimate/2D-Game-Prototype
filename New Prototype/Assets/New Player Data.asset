@@ -29,7 +29,7 @@ MonoBehaviour:
   turnPower: 1.13
   jumpForce: 12
   jumpCutMultiplier: 0.5
-  jumpBufferTime: 0.08
+  jumpBufferTime: 0.2
   wallJumpForce: {x: 9, y: 12}
   wallJumpRunLerp: 0.3
   wallJumpTime: 0.35
@@ -43,7 +43,6 @@ MonoBehaviour:
   dashUpEndMult: 0.6
   dashEndRunLerp: 0.3
   dashBufferTime: 0.05
-  yVelThresh: 24
   jumpMult: 1.5
   doKeepRunMomentum: 1
   doTurnOnWallJump: 0
