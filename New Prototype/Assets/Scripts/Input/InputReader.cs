@@ -8,6 +8,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     // Gameplay
     public event UnityAction jumpEvent;
     public event UnityAction jumpCanceledEvent;
+    public event UnityAction<bool> climbEvent;
     public event UnityAction dashEvent;
     public event UnityAction<bool> glideEvent;
     public event UnityAction grabEvent;
@@ -34,6 +35,15 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
 
     public void OnClimb(InputAction.CallbackContext context)
     {
+        if (climbEvent != null && context.phase == InputActionPhase.Performed)
+        {
+            climbEvent.Invoke(true);
+        }
+
+        if (climbEvent != null && context.phase == InputActionPhase.Canceled)
+        {
+            climbEvent.Invoke(false);
+        }
     }
 
     public void OnDash(InputAction.CallbackContext context)

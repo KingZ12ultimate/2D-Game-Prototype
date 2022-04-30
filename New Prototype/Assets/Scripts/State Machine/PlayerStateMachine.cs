@@ -34,6 +34,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 	#region STATE PARAMETERS
 	public bool IsFacingRight { get; private set; }
+	public bool Sliding { get; private set; }
 	public bool Gliding { get; private set; }
 	public bool GroundPounding { get; set; }
 	public bool HardLanding { get; set; }
@@ -68,6 +69,7 @@ public class PlayerStateMachine : MonoBehaviour
     #region Enable / Disable
 	private void OnEnable()
     {
+		inputReader.climbEvent += OnClimb;
 		inputReader.dashEvent += OnDash;
 		inputReader.glideEvent += OnGlide;
 		inputReader.groundPoundEvent += OnGroundPound;
@@ -78,6 +80,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 	private void OnDisable()
 	{
+		inputReader.climbEvent -= OnClimb;
 		inputReader.dashEvent -= OnDash;
 		inputReader.glideEvent -= OnGlide;
 		inputReader.groundPoundEvent -= OnGroundPound;
@@ -196,7 +199,10 @@ public class PlayerStateMachine : MonoBehaviour
 		movementInput = movement;
     }
 
-	public void OnClimb() { }
+	public void OnClimb(bool pressed)
+	{
+		Sliding = pressed;
+	}
 
 	public void OnGlide(bool pressed)
     {
