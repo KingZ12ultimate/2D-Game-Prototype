@@ -42,7 +42,7 @@ public class PlayerInAirState : PlayerState
 		{
 			player.StateMachine.ChangeState(player.WallJumpState);
 		}
-		else if ((player.LastOnWallLeftTime > 0 || player.LastOnWallRightTime > 0) && player.Sliding)
+		else if ((player.LastOnWallLeftTime > 0 || player.LastOnWallRightTime > 0))
 		{
 			player.StateMachine.ChangeState(player.WallSlideState);
 		}

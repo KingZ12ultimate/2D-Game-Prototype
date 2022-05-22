@@ -341,7 +341,8 @@ public class PlayerStateMachine : MonoBehaviour
 		float speedDif = targetSpeed - RB.velocity.y;
 
 		float movement = Mathf.Pow(Mathf.Abs(speedDif) * data.slideAccel, data.slidePower) * Mathf.Sign(speedDif);
-		RB.AddForce(movement * Vector2.up, ForceMode2D.Force);
+		//RB.AddForce(movement * Vector2.up, ForceMode2D.Force);
+		RB.velocity = new Vector2(RB.velocity.x, movement);
 	}
 
 	public void Dash(Vector2 dir)
