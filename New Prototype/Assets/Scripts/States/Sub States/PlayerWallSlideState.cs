@@ -27,7 +27,7 @@ public class PlayerWallSlideState : PlayerOnWallState
 		{
 			player.StateMachine.ChangeState(player.WallJumpState);
 		}
-		else if ((player.LastOnWallLeftTime > 0 || player.LastOnWallRightTime > 0) && !player.Sliding)
+		else if (player.LastOnWallTime <= 0 || player.movementInput != Vector2.zero || !player.Sliding)
 		{
 			player.StateMachine.ChangeState(player.InAirState);
 		}

@@ -37,20 +37,6 @@ public class PlayerInAirState : PlayerState
         {
 			player.StateMachine.ChangeState(player.GlideState);
         }
-		else if (((player.LastOnWallLeftTime > 0 && player.movementInput.x < 0) 
-			|| (player.LastOnWallRightTime > 0 && player.movementInput.x > 0)) && player.LastPressedJumpTime > 0)
-		{
-			player.StateMachine.ChangeState(player.WallJumpState);
-		}
-		else if ((player.LastOnWallLeftTime > 0 || player.LastOnWallRightTime > 0))
-		{
-			player.StateMachine.ChangeState(player.WallSlideState);
-		}
-		else if (player.RB.velocity.y < 0)
-		{
-			//quick fall when holding down: feels responsive, adds some bonus depth with very little added complexity and great for speedrunners :D (In games such as Celeste and Katana ZERO)
-			player.SetGravityScale(data.gravityScale * data.fallGravityMult);
-		}
 		else if (player.LastOnGroundTime > 0)
 		{
 			if (player.LastPressedDashTime > 0 && player.DashState.CanDash())
@@ -58,6 +44,20 @@ public class PlayerInAirState : PlayerState
 				player.StateMachine.ChangeState(player.DashState);
 			}
 			player.StateMachine.ChangeState(player.IdleState);
+		}
+		else if (((player.LastOnWallLeftTime > 0 && player.movementInput.x < 0) 
+			|| (player.LastOnWallRightTime > 0 && player.movementInput.x > 0)) && player.LastPressedJumpTime > 0)
+		{
+			player.StateMachine.ChangeState(player.WallJumpState);
+		}
+		else if ((player.LastOnWallLeftTime > 0 || player.LastOnWallRightTime > 0) && player.Sliding)
+		{
+			player.StateMachine.ChangeState(player.WallSlideState);
+		}
+		else if (player.RB.velocity.y < 0)
+		{
+			//quick fall when holding down: feels responsive, adds some bonus depth with very little added complexity and great for speedrunners :D (In games such as Celeste and Katana ZERO)
+			player.SetGravityScale(data.gravityScale * data.fallGravityMult);
 		}
 	}
 

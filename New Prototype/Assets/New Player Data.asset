@@ -35,6 +35,7 @@ MonoBehaviour:
   wallJumpTime: 0.35
   slideAccel: 0.8
   slidePower: 2
+  slideSpeed: 1000
   dashAmount: 1
   dashSpeed: 17
   dashAttackTime: 0.15

@@ -144,7 +144,7 @@ public class PlayerStateMachine : MonoBehaviour
 				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight))
 			LastOnWallRightTime = data.coyoteTime;
 
-		//Right Wall Check
+		//Left Wall Check
 		if ((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
 			|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight))
 			LastOnWallLeftTime = data.coyoteTime;
@@ -337,12 +337,14 @@ public class PlayerStateMachine : MonoBehaviour
 	public void Slide()
 	{
 		//works the same as the Run but only in the y-axis
+		/*
 		float targetSpeed = 0;
 		float speedDif = targetSpeed - RB.velocity.y;
 
 		float movement = Mathf.Pow(Mathf.Abs(speedDif) * data.slideAccel, data.slidePower) * Mathf.Sign(speedDif);
-		//RB.AddForce(movement * Vector2.up, ForceMode2D.Force);
-		RB.velocity = new Vector2(RB.velocity.x, movement);
+		RB.AddForce(movement * Vector2.up, ForceMode2D.Force);
+		*/
+		RB.velocity = new Vector2(RB.velocity.x, Mathf.Clamp(RB.velocity.y, -data.slideSpeed, float.MaxValue));
 	}
 
 	public void Dash(Vector2 dir)
@@ -372,6 +374,8 @@ public class PlayerStateMachine : MonoBehaviour
     {
         Gizmos.color = Color.red;
 		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
-    }
+		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
+		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
+	}
     #endregion
 }

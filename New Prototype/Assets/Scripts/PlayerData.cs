@@ -48,6 +48,7 @@ public class PlayerData : ScriptableObject
 	[Header("Slide")]
 	public float slideAccel;
 	[Range(.5f, 2f)] public float slidePower;
+	public float slideSpeed;
 
 	//ABILITIES
 	[Header("Dash")]
